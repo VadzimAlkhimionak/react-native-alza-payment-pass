@@ -4,31 +4,40 @@ import PassKit
 
 
 class AlzaReactNativePaymentPassView: ExpoView {
-  @objc var onAddButtonPress: RCTBubblingEventBlock!
-
-  let passButton = PKAddPassButton(addPassButtonStyle: PKAddPassButtonStyle.black)
-  
-  required init(appContext: AppContext? = nil) {
-    super.init(appContext: appContext)
-    clipsToBounds = true
-
-    for child in subviews {
-      child.removeFromSuperview()
+    @objc var iosButtonStyle: PKAddPassButtonStyle = .blackOutline
+    @objc var onAddButtonPress: RCTBubblingEventBlock!
+    
+    required init(appContext: AppContext? = nil) {
+        super.init(appContext: appContext)
+        
     }
     
-    passButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    passButton.frame = bounds
+    private func renderButton() {
+        clipsToBounds = true
+        
+        for child in subviews {
+            child.removeFromSuperview()
+        }
+        
+        print("renderButton() button style", iosButtonStyle.rawValue)
+        let passButton = PKAddPassButton(addPassButtonStyle: iosButtonStyle)
+        
+        passButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        passButton.frame = bounds
+        
+        passButton.addTarget(self, action: #selector(self.onPassButtonPress), for: .touchUpInside)
+        
+        self.addSubview(passButton)
+    }
     
-    passButton.addTarget(self, action: #selector(self.onPassButtonPress), for: .touchUpInside)
-    
-    self.addSubview(passButton)
-  }
-
-  override func layoutSubviews() {
-    passButton.frame = bounds
-  }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        renderButton()
+    }
     
     @objc private func onPassButtonPress(){
-      onAddButtonPress([:])
+        print ("button pressed!")
+        // onAddButtonPress([:])
     }
 }

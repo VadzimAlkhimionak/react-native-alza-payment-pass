@@ -1,7 +1,7 @@
-export type ChangeEventPayload = {
-  value: string;
-};
+import { ViewProps } from "react-native";
+
+export type IOSButtonStyle = "black" | "blackOutline";
 
 export type AlzaReactNativePaymentPassViewProps = {
-  name: string;
-};
+  iosButtonStyle?: IOSButtonStyle;
+} & ViewProps;

@@ -1,9 +1,16 @@
 import { AlzaReactNativePaymentPassView } from "alza-react-native-payment-pass";
+import { Text, View } from "react-native";
 
 export default function App() {
   return (
-    <AlzaReactNativePaymentPassView
-      style={{ flex: 1, backgroundColor: "purple" }}
-    />
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>Hi mom</Text>
+      <View style={{ height: 200, width: 200, backgroundColor: "red" }}>
+        <AlzaReactNativePaymentPassView
+          iosButtonStyle="blackOutline"
+          style={{ backgroundColor: "purple", flex: 1 }}
+        />
+      </View>
+    </View>
   );
 }
