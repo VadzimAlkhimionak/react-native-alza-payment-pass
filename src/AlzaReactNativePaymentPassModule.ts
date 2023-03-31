@@ -2,4 +2,15 @@ import { requireNativeModule } from "expo-modules-core";
 
 // It loads the native module object from the JSI or falls back to
 // the bridge module (from NativeModulesProxy) if the remote debugger is on.
-export default requireNativeModule("AlzaReactNativePaymentPass");
+const AlzaReactNativePaymentPass = requireNativeModule(
+  "AlzaReactNativePaymentPass"
+);
+
+export type CanAddPaymentPassResult =
+  | "CAN_ADD"
+  | "ALREADY_ADDED"
+  | "UNABLE_TO_CHECK";
+
+export function canAddPaymentPass(paymentReferenceID: string): string {
+  return AlzaReactNativePaymentPass.canAddPaymentPass(paymentReferenceID);
+}

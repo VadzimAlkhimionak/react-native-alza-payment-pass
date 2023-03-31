@@ -6,7 +6,7 @@ import { AlzaReactNativePaymentPassViewProps } from "./AlzaReactNativePaymentPas
 const NativeView: React.ComponentType<AlzaReactNativePaymentPassViewProps> =
   requireNativeViewManager("AlzaReactNativePaymentPass");
 
-export default function AlzaReactNativePaymentPassView(
+export function AlzaReactNativePaymentPassView(
   props: AlzaReactNativePaymentPassViewProps
 ) {
   return <NativeView {...props} />;

@@ -7,7 +7,7 @@ public class AlzaReactNativePaymentPassModule: Module {
         
         View(AlzaReactNativePaymentPassView.self) {
             Events("onAddButtonPress")
-
+            
             Prop("iosButtonStyle") { (view, style: iosButtonStyle) in
                 print ("prop:iosButtonStyle", style)
                 switch style {
@@ -19,9 +19,28 @@ public class AlzaReactNativePaymentPassModule: Module {
             }
         }
         
+        Function("canAddPaymentPass") { (paymentReferenceID: String) -> String in
+            print("checking if we can add")
+            if PKAddPaymentPassViewController.canAddPaymentPass() {
+                if PKPassLibrary().canAddPaymentPass(withPrimaryAccountIdentifier: paymentReferenceID) {
+                    return "CAN_ADD"
+                } else {
+                    return "ALREADY_ADDED"
+                }
+            } else {
+                return "UNABLE_TO_CHECK"
+            }
+            
+        }
+        
     }
     enum iosButtonStyle: String, Enumerable {
         case black
         case blackOutline
+    }
+    enum CanAddPaymentPassResult: String, Enumerable {
+        case CAN_ADD
+        case ALREADY_ADDED
+        case UNABLE_TO_CHECK
     }
 }
