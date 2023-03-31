@@ -1,20 +1,34 @@
 import ExpoModulesCore
 import WebKit
+import PassKit
+
 
 class AlzaReactNativePaymentPassView: ExpoView {
-  let webView = WKWebView()
+  @objc var onAddButtonPress: RCTBubblingEventBlock!
 
+  let passButton = PKAddPassButton(addPassButtonStyle: PKAddPassButtonStyle.black)
+  
   required init(appContext: AppContext? = nil) {
     super.init(appContext: appContext)
     clipsToBounds = true
-    addSubview(webView)
 
-    let url =  URL(string:"https://docs.expo.dev/modules/")!
-    let urlRequest = URLRequest(url:url)
-    webView.load(urlRequest)
+    for child in subviews {
+      child.removeFromSuperview()
+    }
+    
+    passButton.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    passButton.frame = bounds
+    
+    passButton.addTarget(self, action: #selector(self.onPassButtonPress), for: .touchUpInside)
+    
+    self.addSubview(passButton)
   }
 
   override func layoutSubviews() {
-    webView.frame = bounds
+    passButton.frame = bounds
   }
+    
+    @objc private func onPassButtonPress(){
+      onAddButtonPress([:])
+    }
 }
