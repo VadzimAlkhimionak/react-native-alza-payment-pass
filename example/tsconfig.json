@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "alza-react-native-payment-pass": ["../src/index"],
+      "alza-react-native-payment-pass/*": ["../src/*"]
+    }
+  }
+}

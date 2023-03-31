@@ -1,0 +1,9 @@
+{
+  "platforms": ["ios", "android", "web"],
+  "ios": {
+    "modules": ["AlzaReactNativePaymentPassModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.alzareactnativepaymentpass.AlzaReactNativePaymentPassModule"]
+  }
+}
