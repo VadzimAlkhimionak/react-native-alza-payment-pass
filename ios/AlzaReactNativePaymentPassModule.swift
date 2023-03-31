@@ -6,6 +6,8 @@ public class AlzaReactNativePaymentPassModule: Module {
         Name("AlzaReactNativePaymentPass")
         
         View(AlzaReactNativePaymentPassView.self) {
+            Events("onAddButtonPress")
+
             Prop("iosButtonStyle") { (view, style: iosButtonStyle) in
                 print ("prop:iosButtonStyle", style)
                 switch style {
@@ -14,7 +16,7 @@ public class AlzaReactNativePaymentPassModule: Module {
                 case .blackOutline:
                     view.iosButtonStyle = PKAddPassButtonStyle.blackOutline
                 }
-            }    
+            }
         }
         
     }

@@ -5,7 +5,7 @@ import PassKit
 
 class AlzaReactNativePaymentPassView: ExpoView {
     @objc var iosButtonStyle: PKAddPassButtonStyle = .blackOutline
-    @objc var onAddButtonPress: RCTBubblingEventBlock!
+    let onAddButtonPress = EventDispatcher()
     
     required init(appContext: AppContext? = nil) {
         super.init(appContext: appContext)
@@ -38,6 +38,6 @@ class AlzaReactNativePaymentPassView: ExpoView {
     
     @objc private func onPassButtonPress(){
         print ("button pressed!")
-        // onAddButtonPress([:])
+        onAddButtonPress()
     }
 }

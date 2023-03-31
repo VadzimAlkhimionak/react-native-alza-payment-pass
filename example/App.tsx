@@ -9,6 +9,9 @@ export default function App() {
         <AlzaReactNativePaymentPassView
           iosButtonStyle="blackOutline"
           style={{ backgroundColor: "purple", flex: 1 }}
+          onAddButtonPress={() => {
+            console.log("add button pressed");
+          }}
         />
       </View>
     </View>
