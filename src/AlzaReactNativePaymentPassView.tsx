@@ -1,11 +1,15 @@
-import { requireNativeViewManager } from 'expo-modules-core';
-import * as React from 'react';
+import { requireNativeViewManager } from "expo-modules-core";
+import * as React from "react";
+import { ViewProps } from "react-native";
 
-import { AlzaReactNativePaymentPassViewProps } from './AlzaReactNativePaymentPass.types';
+import { AlzaReactNativePaymentPassViewProps } from "./AlzaReactNativePaymentPass.types";
 
-const NativeView: React.ComponentType<AlzaReactNativePaymentPassViewProps> =
-  requireNativeViewManager('AlzaReactNativePaymentPass');
+export type Props = ViewProps;
 
-export default function AlzaReactNativePaymentPassView(props: AlzaReactNativePaymentPassViewProps) {
+const NativeView: React.ComponentType<Props> = requireNativeViewManager(
+  "AlzaReactNativePaymentPass"
+);
+
+export default function AlzaReactNativePaymentPassView(props: Props) {
   return <NativeView {...props} />;
 }
