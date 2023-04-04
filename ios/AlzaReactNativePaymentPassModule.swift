@@ -33,6 +33,20 @@ public class AlzaReactNativePaymentPassModule: Module {
             
         }
         
+        AsyncFunction("asyncCanAddPaymentPass") { (paymentReferenceID: String, promise: Promise) in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                if PKAddPaymentPassViewController.canAddPaymentPass() {
+                    if PKPassLibrary().canAddPaymentPass(withPrimaryAccountIdentifier: paymentReferenceID) {
+                        promise.resolve("CAN_ADD")
+                    } else {
+                        promise.resolve("ALREADY_ADDED")
+                    }
+                } else {
+                    promise.resolve("UNABLE_TO_CHECK")
+                }
+            }
+        }
+        
     }
     enum iosButtonStyle: String, Enumerable {
         case black

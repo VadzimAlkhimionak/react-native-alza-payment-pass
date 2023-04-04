@@ -14,3 +14,11 @@ export type CanAddPaymentPassResult =
 export function canAddPaymentPass(paymentReferenceID: string): string {
   return AlzaReactNativePaymentPass.canAddPaymentPass(paymentReferenceID);
 }
+
+export async function asyncCanAddPaymentPass(
+  paymentReferenceID: string
+): Promise<CanAddPaymentPassResult> {
+  return await AlzaReactNativePaymentPass.asyncCanAddPaymentPass(
+    paymentReferenceID
+  );
+}
