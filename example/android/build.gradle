@@ -38,5 +38,6 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
+        maven { url "file:libs/com/google/android/gms/play-services-tapandpay/18.3.2" }
     }
 }
