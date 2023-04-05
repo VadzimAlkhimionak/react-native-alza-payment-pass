@@ -28,7 +28,6 @@ buildscript {
 
   repositories {
     mavenCentral()
-    maven { url "file:libs/com/google/android/gms/play-services-tapandpay/18.3.2" }
   }
 
   dependencies {

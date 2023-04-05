@@ -38,6 +38,10 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
-        maven { url "file:libs/com/google/android/gms/play-services-tapandpay/18.3.2" }
+        maven {
+            // This directory is precreated to store the TapAndPay SDK,
+            // which must be downloaded manually from Google.
+            url("file:${project.rootDir}/tapandpay_sdk/")
+        }
     }
 }
