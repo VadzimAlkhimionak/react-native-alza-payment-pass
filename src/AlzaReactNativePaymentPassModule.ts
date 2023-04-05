@@ -1,7 +1,6 @@
 import { requireNativeModule } from "expo-modules-core";
+import { AddCardToGooglePayOptions } from "./AlzaReactNativePaymentPass.types";
 
-// It loads the native module object from the JSI or falls back to
-// the bridge module (from NativeModulesProxy) if the remote debugger is on.
 const AlzaReactNativePaymentPass = requireNativeModule(
   "AlzaReactNativePaymentPass"
 );
@@ -11,14 +10,17 @@ export type CanAddPaymentPassResult =
   | "ALREADY_ADDED"
   | "UNABLE_TO_CHECK";
 
-export function canAddPaymentPass(paymentReferenceID: string): string {
-  return AlzaReactNativePaymentPass.canAddPaymentPass(paymentReferenceID);
-}
-
 export async function asyncCanAddPaymentPass(
   paymentReferenceID: string
 ): Promise<CanAddPaymentPassResult> {
   return await AlzaReactNativePaymentPass.asyncCanAddPaymentPass(
     paymentReferenceID
   );
+}
+
+export async function addPassToGoogle(
+  options: AddCardToGooglePayOptions
+): Promise<boolean> {
+  console.log('sending request: ', options);
+  return await AlzaReactNativePaymentPass.addPassToGoogle(options);
 }

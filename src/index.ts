@@ -1,12 +1,12 @@
-// Import the native module. On web, it will be resolved to AlzaReactNativePaymentPass.web.ts
-// and on native platforms to AlzaReactNativePaymentPass.ts
-import { AlzaReactNativePaymentPassViewProps } from "./AlzaReactNativePaymentPass.types";
-import { asyncCanAddPaymentPass, canAddPaymentPass } from "./AlzaReactNativePaymentPassModule";
+import { asyncCanAddPaymentPass, addPassToGoogle } from "./AlzaReactNativePaymentPassModule";
 import { AlzaReactNativePaymentPassView } from "./AlzaReactNativePaymentPassView";
+import { CardNetwork, TokenProvider, UserAddress } from "./AlzaReactNativePaymentPass.types";
 
 export {
   AlzaReactNativePaymentPassView,
-  AlzaReactNativePaymentPassViewProps,
-  canAddPaymentPass,
-  asyncCanAddPaymentPass
+  asyncCanAddPaymentPass,
+  addPassToGoogle,
+  CardNetwork,
+  TokenProvider,
+  UserAddress,
 };

@@ -1,14 +1,14 @@
 import {
-  AlzaReactNativePaymentPassView,
-  canAddPaymentPass,
   asyncCanAddPaymentPass,
+  addPassToGoogle,
+  CardNetwork,
+  TokenProvider,
 } from "alza-react-native-payment-pass";
-import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { Pressable, Text, View } from "react-native";
 
 export default function App() {
   const [canAdd, setCanAdd] = useState("");
-  console.log("canAddPaymentPass", canAddPaymentPass("ref"));
 
   useEffect(() => {
     (async () => {
@@ -18,19 +18,43 @@ export default function App() {
     })();
   }, []);
 
+  const onPress = useCallback(async () => {
+    console.log("add button pressed");
+
+    const result = await addPassToGoogle({
+      opc: "",
+      cardNetwork: CardNetwork.MasterCard,
+      tokenProvider: TokenProvider.MasterCard,
+      displayName: "David Meadows",
+      lastDigits: "4242",
+      userAddress: {
+        name: "",
+        address1: "",
+        locality: "",
+        administrativeArea: "",
+        countryCode: "",
+        postalCode: "",
+        phoneNumber: "",
+      },
+    });
+    console.log("result", result);
+  }, []);
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Can add payment pass: {canAddPaymentPass("ref")}</Text>
       <Text>Async can add payment pass: {canAdd}</Text>
-      <View style={{ height: 200, width: 200, backgroundColor: "red" }}>
-        <AlzaReactNativePaymentPassView
+      <Pressable
+        style={{ height: 200, width: 200, backgroundColor: "red" }}
+        onPress={onPress}
+      >
+        {/* <AlzaReactNativePaymentPassView
           iosButtonStyle="blackOutline"
           style={{ backgroundColor: "purple", flex: 1 }}
           onAddButtonPress={() => {
             console.log("add button pressed");
           }}
-        />
-      </View>
+        /> */}
+      </Pressable>
     </View>
   );
 }
