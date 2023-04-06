@@ -1,5 +1,4 @@
+rootProject.name = 'AlzaReactNativePaymentPassExample'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
-rootProject.name = 'alza-react-native-payment-pass-example'
 include ':app'
 includeBuild('../node_modules/react-native-gradle-plugin')
-project(':alza-react-native-payment-pass').projectDir = new File(rootProject.projectDir, '../node_modules/alza-react-native-payment-pass/android/app')

@@ -1,35 +1,31 @@
-# alza-react-native-payment-pass
+# react-native-alza-react-native-payment-pass
 
-React Native Handlers for Native Wallets
+test
 
-# API documentation
+## Installation
 
-- [Documentation for the main branch](https://github.com/expo/expo/blob/main/docs/pages/versions/unversioned/sdk/alza-react-native-payment-pass.md)
-- [Documentation for the latest stable release](https://docs.expo.dev/versions/latest/sdk/alza-react-native-payment-pass/)
-
-# Installation in managed Expo projects
-
-For [managed](https://docs.expo.dev/versions/latest/introduction/managed-vs-bare/) Expo projects, please follow the installation instructions in the [API documentation for the latest stable release](#api-documentation). If you follow the link and there is no documentation available then this library is not yet usable within managed projects &mdash; it is likely to be included in an upcoming Expo SDK release.
-
-# Installation in bare React Native projects
-
-For bare React Native projects, you must ensure that you have [installed and configured the `expo` package](https://docs.expo.dev/bare/installing-expo-modules/) before continuing.
-
-### Add the package to your npm dependencies
-
-```
-npm install alza-react-native-payment-pass
+```sh
+npm install react-native-alza-react-native-payment-pass
 ```
 
-### Configure for iOS
+## Usage
 
-Run `npx pod-install` after installing the npm package.
+```js
+import { multiply } from 'react-native-alza-react-native-payment-pass';
 
+// ...
 
-### Configure for Android
+const result = await multiply(3, 7);
+```
 
+## Contributing
 
+See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
 
-# Contributing
+## License
 
-Contributions are very welcome! Please refer to guidelines described in the [contributing guide]( https://github.com/expo/expo#contributing).
+MIT
+
+---
+
+Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
