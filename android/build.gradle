@@ -1,10 +1,11 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["AlzaReactNativePaymentPass_kotlinVersion"]
+  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["AlzaPaymentPass_kotlinVersion"]
 
   repositories {
     google()
     mavenCentral()
+    mavenLocal()
   }
 
   dependencies {
@@ -29,11 +30,11 @@ if (isNewArchitectureEnabled()) {
 }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["AlzaReactNativePaymentPass_" + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["AlzaPaymentPass_" + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["AlzaReactNativePaymentPass_" + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["AlzaPaymentPass_" + name]).toInteger()
 }
 
 android {
@@ -61,25 +62,26 @@ android {
 
 }
 
-repositories {
-  mavenCentral()
-  google()
+allprojects {
+  repositories {
+    google()
+    mavenCentral()
+    mavenLocal()
+  }
 }
 
 def kotlin_version = getExtOrDefault("kotlinVersion")
 
 dependencies {
-  // For < 0.71, this will be from the local maven repo
-  // For > 0.71, this will be replaced by `com.facebook.react:react-android:$version` by react gradle plugin
-  //noinspection GradleDynamicVersion
-  implementation "com.facebook.react:react-native:+"
+  implementation "com.facebook.react:react-android:0.72.+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation "com.google.android.gms:play-services-tapandpay:18.3.2"
 }
 
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "AlzaReactNativePaymentPass"
-    codegenJavaPackageName = "com.alzareactnativepaymentpass"
+    libraryName = "AlzaPaymentPass"
+    codegenJavaPackageName = "com.alzapaymentpass"
   }
 }

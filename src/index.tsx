@@ -1,13 +1,13 @@
 import { NativeModules, Platform } from 'react-native';
 
 const LINKING_ERROR =
-  `The package 'react-native-alza-react-native-payment-pass' doesn't seem to be linked. Make sure: \n\n` +
+  `The package 'react-native-alza-payment-pass' doesn't seem to be linked. Make sure: \n\n` +
   Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
-const AlzaReactNativePaymentPass = NativeModules.AlzaReactNativePaymentPass
-  ? NativeModules.AlzaReactNativePaymentPass
+const AlzaPaymentPass = NativeModules.AlzaPaymentPass
+  ? NativeModules.AlzaPaymentPass
   : new Proxy(
       {},
       {
@@ -17,6 +17,10 @@ const AlzaReactNativePaymentPass = NativeModules.AlzaReactNativePaymentPass
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return AlzaReactNativePaymentPass.multiply(a, b);
+export function canAddPaymentPass(): Promise<string> {
+  return AlzaPaymentPass.canAddPaymentPass();
+}
+
+export function addPassToGoogle(options: any): Promise<string> {
+  return AlzaPaymentPass.addPassToGoogle(options);
 }

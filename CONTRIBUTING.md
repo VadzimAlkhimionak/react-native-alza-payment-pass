@@ -53,9 +53,9 @@ Remember to add tests for your change if possible. Run the unit tests by:
 yarn test
 ```
 
-To edit the Objective-C or Swift files, open `example/ios/AlzaReactNativePaymentPassExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-alza-react-native-payment-pass`.
+To edit the Objective-C or Swift files, open `example/ios/AlzaPaymentPassExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-alza-payment-pass`.
 
-To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-alza-react-native-payment-pass` under `Android`.
+To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-alza-payment-pass` under `Android`.
 
 
 ### Commit message convention

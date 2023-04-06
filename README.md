@@ -1,17 +1,17 @@
-# react-native-alza-react-native-payment-pass
+# react-native-alza-payment-pass
 
-test
+sample
 
 ## Installation
 
 ```sh
-npm install react-native-alza-react-native-payment-pass
+npm install react-native-alza-payment-pass
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'react-native-alza-react-native-payment-pass';
+import { multiply } from 'react-native-alza-payment-pass';
 
 // ...
 

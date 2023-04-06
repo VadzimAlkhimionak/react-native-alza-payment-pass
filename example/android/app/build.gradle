@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.alzareactnativepaymentpassexample"
+    namespace "com.alzapaymentpassexample"
     defaultConfig {
-        applicationId "com.alzareactnativepaymentpassexample"
+        applicationId "com.alzapaymentpassexample"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

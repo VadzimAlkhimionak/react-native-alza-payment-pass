@@ -1,5 +1,5 @@
 {
-  "name": "react-native-alza-react-native-payment-pass",
+  "name": "react-native-alza-payment-pass",
   "version": "0.1.0",
   "description": "test",
   "main": "lib/commonjs/index",
@@ -41,13 +41,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/felipecsl/react-native-alza-react-native-payment-pass",
+  "repository": "https://github.com/felipecsl/react-native-alza-payment-pass",
   "author": "Felipe Lima <felipe.lima@gmail.com> (https://github.com/felipecsl)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/felipecsl/react-native-alza-react-native-payment-pass/issues"
+    "url": "https://github.com/felipecsl/react-native-alza-payment-pass/issues"
   },
-  "homepage": "https://github.com/felipecsl/react-native-alza-react-native-payment-pass#readme",
+  "homepage": "https://github.com/felipecsl/react-native-alza-payment-pass#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

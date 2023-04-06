@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  AlzaReactNativePaymentPassExample
+//  AlzaPaymentPassExample
 //
 
 import Foundation
