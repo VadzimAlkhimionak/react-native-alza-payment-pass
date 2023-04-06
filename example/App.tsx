@@ -1,43 +1,35 @@
-import {
-  asyncCanAddPaymentPass,
-  addPassToGoogle,
-  CardNetwork,
-  TokenProvider,
-} from "alza-react-native-payment-pass";
 import { useCallback, useEffect, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { NativeModules, Pressable, Text, View } from 'react-native';
+
+const { AlzaReactNativePaymentPassModule } = NativeModules;
 
 export default function App() {
   const [canAdd, setCanAdd] = useState("");
 
+  console.log("App rendering");
+
   useEffect(() => {
-    (async () => {
-      const c = await asyncCanAddPaymentPass("ref");
-      console.log("asyncCanAddPaymentPass", c);
-      setCanAdd(c);
-    })();
+    AlzaReactNativePaymentPassModule.canAddPaymentPass().then(setCanAdd);
   }, []);
 
   const onPress = useCallback(async () => {
     console.log("add button pressed");
 
-    const result = await addPassToGoogle({
-      opc: "",
-      cardNetwork: CardNetwork.MasterCard,
-      tokenProvider: TokenProvider.MasterCard,
+    AlzaReactNativePaymentPassModule.addPassToGoogle({
+      cardNetwork: 3,
+      tokenProvider: 3,
       displayName: "David Meadows",
       lastDigits: "4242",
       userAddress: {
-        name: "",
-        address1: "",
-        locality: "",
-        administrativeArea: "",
-        countryCode: "",
-        postalCode: "",
-        phoneNumber: "",
+        name: "John Doe",
+        address1: "1 Infinite Loop",
+        locality: "Cupertino",
+        administrativeArea: "CA",
+        countryCode: "US",
+        postalCode: "98103",
+        phoneNumber: "415 769 7137",
       },
-    });
-    console.log("result", result);
+    }).then((result: any) => console.log(result)).catch((error: any) => console.log(error));
   }, []);
 
   return (
@@ -47,13 +39,6 @@ export default function App() {
         style={{ height: 200, width: 200, backgroundColor: "red" }}
         onPress={onPress}
       >
-        {/* <AlzaReactNativePaymentPassView
-          iosButtonStyle="blackOutline"
-          style={{ backgroundColor: "purple", flex: 1 }}
-          onAddButtonPress={() => {
-            console.log("add button pressed");
-          }}
-        /> */}
       </Pressable>
     </View>
   );
