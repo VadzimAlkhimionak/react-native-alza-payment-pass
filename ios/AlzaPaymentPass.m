@@ -1,12 +1,49 @@
+// #import <React/RCTBridgeModule.h>
+
+// @interface RCT_EXTERN_MODULE(AlzaPaymentPass, NSObject)
+
+// RCT_EXTERN_METHOD(
+//                   canAddPaymentPass: (NSString *) uniqueCardReferenceID
+//                   resolve: (RCTPromiseResolveBlock)resolve
+//                   rejecter:(RCTPromiseRejectBlock)reject
+//                   )
+
+// + (BOOL)requiresMainQueueSetup
+// {
+//   return NO;
+// }
+
+// @end
+
 #import <React/RCTBridgeModule.h>
 
 @interface RCT_EXTERN_MODULE(AlzaPaymentPass, NSObject)
+RCT_EXTERN_METHOD(
+                  canAddPaymentPass: (NSString *) paymentRefrenceId
+                  resolve: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject
+                  )
 
-RCT_EXTERN_METHOD(canAddPaymentPass:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(
+                  addPaymentPass: (NSString *) cardHolderName
+                  lastFour: (NSString *) lastFour
+                  paymentReferenceId: (NSString *) paymentReferenceId
+                  successCallback: (RCTResponseSenderBlock)successCallback
+                  errorCallback: (RCTResponseSenderBlock) errorCallback
+                  )
 
-+ (BOOL)requiresMainQueueSetup
-{
-  return NO;
-}
+RCT_EXTERN_METHOD(
+                  finalizeAddCard: (NSString *) encryptedPassData
+                  activationData: (NSString *) activationData
+                  ephemeralPublicKey: (NSString *) ephemeralPublicKey
+                  successCallback: (RCTResponseSenderBlock)successCallback
+                  errorCallback: (RCTResponseSenderBlock) errorCallback
+                  )
 
+RCT_EXTERN_METHOD(
+                  removeSuspendedCard: (NSString *) paymentReferenceId
+                  resolve: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject
+                  )
 @end
+

@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable, Platform } from 'react-native';
 import {
+  addPassToAppleWallet,
   addPassToGoogle,
   canAddPaymentPass,
 } from 'react-native-alza-payment-pass';
@@ -11,10 +12,10 @@ export default function App() {
   const [result, setResult] = React.useState<string | undefined>();
 
   React.useEffect(() => {
-    canAddPaymentPass().then(setResult);
+    canAddPaymentPass('ref').then(setResult);
   }, []);
 
-  const onPress = useCallback(async () => {
+  const addToGoogle = useCallback(async () => {
     console.log('add button pressed');
 
     addPassToGoogle({
@@ -36,13 +37,38 @@ export default function App() {
       .catch((error: any) => console.log(error));
   }, []);
 
+  const addToIos = useCallback(async () => {
+    console.log('add button pressed');
+
+    addPassToAppleWallet(
+      'Jenny Rosen',
+      '4242',
+      'ref',
+      (params) => {
+        console.log('success', params);
+      },
+      (error) => {
+        console.log('error', error);
+      }
+    );
+  }, []);
+
+  const onPress = useCallback(() => {
+    if (Platform.OS === 'ios') {
+      addToIos();
+    } else if (Platform.OS === 'android') {
+      addToGoogle();
+    }
+  }, [addToGoogle, addToIos]);
+
+  const walletName = Platform.OS === 'ios' ? 'Apple Wallet' : 'Google Pay';
+
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
-      <Pressable
-        style={{ height: 200, width: 200, backgroundColor: 'red' }}
-        onPress={onPress}
-      />
+      <Text>Can add payment pass? {result}</Text>
+      <Pressable style={styles.button} onPress={onPress}>
+        <Text style={styles.buttonText}>Add pass to {walletName}</Text>
+      </Pressable>
     </View>
   );
 }
@@ -53,9 +79,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+  button: {
+    height: 100,
+    width: 200,
+    backgroundColor: 'black',
+    borderRadius: 20,
   },
+  buttonText: { textAlign: 'center', marginTop: 40, color: 'white' },
 });
