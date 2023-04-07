@@ -1,20 +1,3 @@
-// #import <React/RCTBridgeModule.h>
-
-// @interface RCT_EXTERN_MODULE(AlzaPaymentPass, NSObject)
-
-// RCT_EXTERN_METHOD(
-//                   canAddPaymentPass: (NSString *) uniqueCardReferenceID
-//                   resolve: (RCTPromiseResolveBlock)resolve
-//                   rejecter:(RCTPromiseRejectBlock)reject
-//                   )
-
-// + (BOOL)requiresMainQueueSetup
-// {
-//   return NO;
-// }
-
-// @end
-
 #import <React/RCTBridgeModule.h>
 
 @interface RCT_EXTERN_MODULE(AlzaPaymentPass, NSObject)
