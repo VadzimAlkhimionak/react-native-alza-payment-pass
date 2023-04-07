@@ -28,8 +28,8 @@ class AlzaPaymentPass: NSObject {
         }
     }
     
-    @objc(addPaymentPass:lastFour:paymentReferenceId:successCallback:errorCallback:)
-    func addPaymentPass(_ cardHolderName: String, lastFour: String, uniqueCardReferenceID: String = "", successCallback: @escaping RCTResponseSenderBlock, errorCallback: @escaping RCTResponseSenderBlock) -> Void {
+    @objc(addPassToAppleWallet:lastFour:paymentReferenceId:successCallback:errorCallback:)
+    func addPassToAppleWallet(_ cardHolderName: String, lastFour: String, uniqueCardReferenceID: String = "", successCallback: @escaping RCTResponseSenderBlock, errorCallback: @escaping RCTResponseSenderBlock) -> Void {
         pkAddPaymentErrorCallback = errorCallback
         pkAddPaymentSuccessCallback = successCallback
         

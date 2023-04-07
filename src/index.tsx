@@ -44,7 +44,7 @@ export function addPassToAppleWallet(
   successCallback: (params: DigitalWalletProvisionRequestParams) => void,
   errorCallback?: (error: string) => void
 ): Promise<string> {
-  return AlzaPaymentPass.addPaymentPass(
+  return AlzaPaymentPass.addPassToAppleWallet(
     cardHolderName,
     lastFour,
     uniqueCardReferenceID,

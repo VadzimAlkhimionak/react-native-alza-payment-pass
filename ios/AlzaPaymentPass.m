@@ -8,7 +8,7 @@ RCT_EXTERN_METHOD(
                   )
 
 RCT_EXTERN_METHOD(
-                  addPaymentPass: (NSString *) cardHolderName
+                  addPassToAppleWallet: (NSString *) cardHolderName
                   lastFour: (NSString *) lastFour
                   paymentReferenceId: (NSString *) paymentReferenceId
                   successCallback: (RCTResponseSenderBlock)successCallback
