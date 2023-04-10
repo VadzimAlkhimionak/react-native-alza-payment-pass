@@ -20,7 +20,8 @@ class AlzaPaymentPassModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun canAddPaymentPass(promise: Promise) {
+  fun canAddPaymentPass(uniqueCardReferenceID: String, promise: Promise) {
+    // todo: ALZ-1915
     promise.resolve("MAYBE_WE_CAN_v2")
   }
 
