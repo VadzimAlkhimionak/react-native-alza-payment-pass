@@ -52,8 +52,8 @@ class AlzaPaymentPass: NSObject {
         }
     }
     
-    @objc(finalizeAddCard:activationData:ephemeralPublicKey:successCallback:errorCallback:)
-    func finalizeAddCard(_ encryptedPassData: String, activationData: String, ephemeralPublicKey: String, successCallback: @escaping RCTResponseSenderBlock,
+    @objc(finalizeAddPassToAppleWallet:activationData:ephemeralPublicKey:successCallback:errorCallback:)
+    func finalizeAddPassToAppleWallet(_ encryptedPassData: String, activationData: String, ephemeralPublicKey: String, successCallback: @escaping RCTResponseSenderBlock,
                          errorCallback: @escaping RCTResponseSenderBlock) -> Void {
         pkFinaliseErrorCallback = errorCallback
         pkFinaliseSuccessCallback = successCallback

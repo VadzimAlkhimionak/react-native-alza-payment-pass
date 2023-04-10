@@ -16,7 +16,7 @@ RCT_EXTERN_METHOD(
                   )
 
 RCT_EXTERN_METHOD(
-                  finalizeAddCard: (NSString *) encryptedPassData
+                  finalizeAddPassToAppleWallet: (NSString *) encryptedPassData
                   activationData: (NSString *) activationData
                   ephemeralPublicKey: (NSString *) ephemeralPublicKey
                   successCallback: (RCTResponseSenderBlock)successCallback

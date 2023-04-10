@@ -29,7 +29,7 @@ export function addPassToGoogle(options: any): Promise<string> {
 
 function noop(): void {}
 
-export interface DigitalWalletProvisionRequestParams {
+export interface AppleWalletProvisionRequestParams {
   device_type: string;
   certificates: string[];
   nonce: string;
@@ -41,7 +41,7 @@ export function addPassToAppleWallet(
   cardHolderName: string,
   lastFour: string,
   uniqueCardReferenceID: string,
-  successCallback: (params: DigitalWalletProvisionRequestParams) => void,
+  successCallback: (params: AppleWalletProvisionRequestParams) => void,
   errorCallback?: (error: string) => void
 ): Promise<string> {
   return AlzaPaymentPass.addPassToAppleWallet(
@@ -53,14 +53,14 @@ export function addPassToAppleWallet(
   );
 }
 
-export const finalizeAddCard = (
+export const finalizeAddPassToAppleWallet = (
   encryptedPassData: string,
   activationData: string,
   ephemeralPublicKey: string,
   successCallback: () => void,
   errorCallback?: (error: string) => void
 ) => {
-  AlzaPaymentPass.finalizeAddCard(
+  AlzaPaymentPass.finalizeAddPassToAppleWallet(
     encryptedPassData,
     activationData,
     ephemeralPublicKey,
