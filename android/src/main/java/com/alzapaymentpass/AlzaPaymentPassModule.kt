@@ -1,20 +1,66 @@
 package com.alzapaymentpass
 
+import android.app.Activity
+import android.content.Intent
 import com.facebook.react.bridge.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tapandpay.TapAndPay
-import com.google.android.gms.tapandpay.TapAndPayStatusCodes.TAP_AND_PAY_NO_ACTIVE_WALLET
+import com.google.android.gms.tapandpay.TapAndPayStatusCodes.*
 import com.google.android.gms.tapandpay.issuer.PushTokenizeRequest
 import com.google.android.gms.tapandpay.issuer.UserAddress
 import java.nio.charset.Charset
 import java.util.logging.Level
 import java.util.logging.Logger
 
+
 class AlzaPaymentPassModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
 
+  var requestPaymentPromise: Promise? = null
+
   override fun getName(): String {
     return NAME
+  }
+
+  private val activityEventListener: ActivityEventListener = object : BaseActivityEventListener() {
+    override fun onActivityResult(
+      activity: Activity,
+      requestCode: Int,
+      resultCode: Int,
+      data: Intent?
+    ) {
+      if (requestCode == REQUEST_CODE_PUSH_TOKENIZE) {
+        when (resultCode) {
+          TAP_AND_PAY_ATTESTATION_ERROR -> requestPaymentPromise?.reject(
+            "TAP_AND_PAY_ATTESTATION_ERROR",
+            "Tap and pay error: attestation error"
+          )
+          Activity.RESULT_OK -> requestPaymentPromise?.resolve(PAYMENT_PASS_RESULT_SUCCESSFUL)
+          Activity.RESULT_CANCELED -> requestPaymentPromise?.reject("CANCELED", "Canceled")
+          TAP_AND_PAY_INVALID_TOKEN_STATE -> requestPaymentPromise?.reject(
+            "TAP_AND_PAY_INVALID_TOKEN_STATE",
+            "Tap and pay error: invalid token state"
+          )
+          TAP_AND_PAY_NO_ACTIVE_WALLET -> requestPaymentPromise?.reject(
+            "TAP_AND_PAY_NO_ACTIVE_WALLET",
+            "Tap and pay error: no active wallet"
+          )
+          TAP_AND_PAY_TOKEN_NOT_FOUND -> requestPaymentPromise?.reject(
+            "TAP_AND_PAY_TOKEN_NOT_FOUND",
+            "Tap and pay error: token not found"
+          )
+          TAP_AND_PAY_UNAVAILABLE -> requestPaymentPromise?.reject(
+            "TAP_AND_PAY_UNAVAILABLE",
+            "Tap and pay error: unavailable"
+          )
+          else -> requestPaymentPromise?.resolve("DEFAULT")
+        }
+      }
+    }
+  }
+
+  init {
+    reactContext.addActivityEventListener(activityEventListener);
   }
 
   @ReactMethod
@@ -50,38 +96,51 @@ class AlzaPaymentPassModule(reactContext: ReactApplicationContext) :
       promise.resolve(PAYMENT_PASS_RESULT_FAILED)
       return
     }
-    val tapAndPayClient = TapAndPay.getClient(currentActivity!!)
-    val opc = options.requireString("opc").toByteArray(Charset.defaultCharset())
-    val cardNetwork = options.requireInt("cardNetwork")
-    val tokenProvider = options.requireInt("tokenProvider")
-    val displayName = options.requireString("displayName")
-    val lastDigits = options.requireString("lastDigits")
-    val userAddressMap = options.getMap("userAddress")
-      ?: throw IllegalArgumentException("Missing required argument userAddress")
-    val userAddress = UserAddress.newBuilder()
-      .setName(userAddressMap.requireString("name"))
-      .setAddress1(userAddressMap.requireString("address1"))
-      .setLocality(userAddressMap.requireString("locality"))
-      .setAdministrativeArea(userAddressMap.requireString("administrativeArea"))
-      .setCountryCode(userAddressMap.requireString("countryCode"))
-      .setPostalCode(userAddressMap.requireString("postalCode"))
-      .setPhoneNumber(userAddressMap.requireString("phoneNumber"))
-      .build()
-    val pushTokenizeRequest = PushTokenizeRequest.Builder()
-      .setOpaquePaymentCard(opc)
-      .setNetwork(cardNetwork)
-      .setTokenServiceProvider(tokenProvider)
-      .setDisplayName(displayName)
-      .setLastDigits(lastDigits)
-      .setUserAddress(userAddress)
-      .build()
-    tapAndPayClient.pushTokenize(
-      currentActivity!!,
-      pushTokenizeRequest,
-      REQUEST_CODE_PUSH_TOKENIZE
-    );
-    logger.log(Level.INFO, "push tokenize request sent")
-    promise.resolve(PAYMENT_PASS_RESULT_SUCCESSFUL)
+    try {
+      val tapAndPayClient = TapAndPay.getClient(currentActivity!!)
+      val opc = options.requireString("opc").toByteArray(Charset.defaultCharset())
+      val cardNetwork = options.requireInt("cardNetwork")
+      val tokenProvider = options.requireInt("tokenProvider")
+      val displayName = options.requireString("displayName")
+      val lastDigits = options.requireString("lastDigits")
+      val userAddressMap = options.getMap("userAddress")
+        ?: throw IllegalArgumentException("Missing required argument userAddress")
+      if (cardNetwork != TapAndPay.CARD_NETWORK_MASTERCARD) {
+        promise.reject(PAYMENT_PASS_RESULT_FAILED, "cardNetwork must be 3 (CARD_NETWORK_MASTERCARD)")
+      }
+      if (tokenProvider != TapAndPay.TOKEN_PROVIDER_MASTERCARD) {
+        promise.reject(PAYMENT_PASS_RESULT_FAILED, "tokenProvider must be 3 (TOKEN_PROVIDER_MASTERCARD)")
+      }
+      val userAddress = UserAddress.newBuilder()
+        .setName(userAddressMap.requireString("name"))
+        .setAddress1(userAddressMap.requireString("address1"))
+        .setLocality(userAddressMap.requireString("locality"))
+        .setAdministrativeArea(userAddressMap.requireString("administrativeArea"))
+        .setCountryCode(userAddressMap.requireString("countryCode"))
+        .setPostalCode(userAddressMap.requireString("postalCode"))
+        .setPhoneNumber(userAddressMap.requireString("phoneNumber"))
+        .build()
+      val pushTokenizeRequest = PushTokenizeRequest.Builder()
+        .setOpaquePaymentCard(opc)
+        .setNetwork(cardNetwork)
+        .setTokenServiceProvider(tokenProvider)
+        .setDisplayName(displayName)
+        .setLastDigits(lastDigits)
+        .setUserAddress(userAddress)
+        .build()
+      tapAndPayClient.pushTokenize(
+        currentActivity!!,
+        pushTokenizeRequest,
+        REQUEST_CODE_PUSH_TOKENIZE
+      );
+      logger.log(Level.INFO, "push tokenize request sent")
+      this.requestPaymentPromise = promise
+    } catch (e: Exception) {
+      promise.reject(
+        "TAP_AND_PAY_START_PUSH_PROVISION_ERROR",
+        "Tap and pay addPassToGoogle exception: ${e.message}"
+      )
+    }
   }
 
   private fun ReadableMap.requireString(name: String): String {
