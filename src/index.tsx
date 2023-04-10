@@ -46,7 +46,7 @@ export function addPassToAppleWallet(
   uniqueCardReferenceID: string,
   successCallback: (params: AppleWalletProvisionRequestParams) => void,
   errorCallback?: (error: string) => void
-): Promise<string> {
+): void {
   return AlzaPaymentPass.addPassToAppleWallet(
     cardHolderName,
     lastFour,
@@ -62,7 +62,7 @@ export const finalizeAddPassToAppleWallet = (
   ephemeralPublicKey: string,
   successCallback: () => void,
   errorCallback?: (error: string) => void
-) => {
+): void => {
   AlzaPaymentPass.finalizeAddPassToAppleWallet(
     encryptedPassData,
     activationData,
