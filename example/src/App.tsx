@@ -1,24 +1,32 @@
 import * as React from 'react';
+import { useCallback } from 'react';
 
-import { StyleSheet, View, Text, Pressable, Platform } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import {
   addPassToAppleWallet,
   addPassToGoogle,
   canAddPaymentPass,
 } from 'react-native-alza-payment-pass';
-import { useCallback } from 'react';
+
+// Make sure you set the OPC in your .env file
+const OPC = process.env.OPC;
 
 export default function App() {
-  const [result, setResult] = React.useState<string | undefined>();
+  const [result, setResult] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    canAddPaymentPass('ref').then(setResult);
-  }, []);
+    if (!result) {
+      canAddPaymentPass('ref').then((canAddResult) => {
+        setResult(canAddResult);
+      });
+    }
+  }, [result]);
 
   const addToGoogle = useCallback(async () => {
     console.log('add button pressed');
 
     addPassToGoogle({
+      opc: OPC,
       cardNetwork: 3,
       tokenProvider: 3,
       displayName: 'David Meadows',
@@ -74,16 +82,26 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  canAdd: {
+    fontSize: 20,
+    fontFamily: 'monospace',
+  },
+  button: {
+    height: 100,
+    paddingHorizontal: 30,
+    backgroundColor: '#09f',
+    marginTop: 20,
+    borderRadius: 5,
+  },
+  buttonText: {
+    textAlign: 'center',
+    marginTop: 35,
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  button: {
-    height: 100,
-    width: 200,
-    backgroundColor: 'black',
-    borderRadius: 20,
-  },
-  buttonText: { textAlign: 'center', marginTop: 40, color: 'white' },
 });
