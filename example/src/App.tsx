@@ -1,30 +1,28 @@
 import * as React from 'react';
 import { useCallback } from 'react';
 
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import {
+  addPassToAppleWallet,
   addPassToGoogle,
   canAddPaymentPass,
-  PAYMENT_PASS_RESULT_SUCCESSFUL,
 } from 'react-native-alza-payment-pass';
 
 // Make sure you set the OPC in your .env file
 const OPC = process.env.OPC;
 
 export default function App() {
-  const [canAdd, setCanAdd] = React.useState(false);
   const [result, setResult] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (!result) {
-      canAddPaymentPass().then((canAddResult) => {
-        setCanAdd(canAddResult === PAYMENT_PASS_RESULT_SUCCESSFUL);
+      canAddPaymentPass('ref').then((canAddResult) => {
         setResult(canAddResult);
       });
     }
   }, [result]);
 
-  const onPress = useCallback(async () => {
+  const addToGoogle = useCallback(async () => {
     console.log('add button pressed');
 
     addPassToGoogle({
@@ -47,13 +45,37 @@ export default function App() {
       .catch((error: any) => console.log(error));
   }, []);
 
+  const addToIos = useCallback(async () => {
+    console.log('add button pressed');
+
+    addPassToAppleWallet(
+      'Jenny Rosen',
+      '4242',
+      'ref',
+      (params) => {
+        console.log('success', params);
+      },
+      (error) => {
+        console.log('error', error);
+      }
+    );
+  }, []);
+
+  const onPress = useCallback(() => {
+    if (Platform.OS === 'ios') {
+      addToIos();
+    } else if (Platform.OS === 'android') {
+      addToGoogle();
+    }
+  }, [addToGoogle, addToIos]);
+
+  const walletName = Platform.OS === 'ios' ? 'Apple Wallet' : 'Google Pay';
+
   return (
     <View style={styles.container}>
-      <Text style={styles.canAdd}>
-        canAddPaymentPass(): {canAdd ? 'YES' : 'NO'}
-      </Text>
+      <Text>Can add payment pass? {result}</Text>
       <Pressable style={styles.button} onPress={onPress}>
-        <Text style={styles.buttonText}>Add to Google Pay</Text>
+        <Text style={styles.buttonText}>Add pass to {walletName}</Text>
       </Pressable>
     </View>
   );

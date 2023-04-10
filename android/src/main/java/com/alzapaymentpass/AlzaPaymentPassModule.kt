@@ -18,7 +18,7 @@ class AlzaPaymentPassModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun canAddPaymentPass(promise: Promise) {
+  fun canAddPaymentPass(uniqueCardReferenceID: String, promise: Promise) {
     // TODO: Do we need to also check that Google Pay is the default HCE wallet for NFC payments?
     if (currentActivity == null) {
       logger.log(Level.WARNING, "currentActivity is null, cannot request provision")
